@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_20_110040) do
+ActiveRecord::Schema.define(version: 2019_06_02_181855) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "chefs", force: :cascade do |t|
     t.string "chefname"
@@ -35,6 +38,16 @@ ActiveRecord::Schema.define(version: 2019_05_20_110040) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "missing_people", force: :cascade do |t|
+    t.string "image"
+    t.string "name"
+    t.string "lastname"
+    t.integer "age"
+    t.integer "gender"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "recipe_ingredients", force: :cascade do |t|
     t.integer "recipe_id"
     t.integer "ingredient_id"
@@ -46,6 +59,31 @@ ActiveRecord::Schema.define(version: 2019_05_20_110040) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "chef_id"
+  end
+
+  create_table "resources", force: :cascade do |t|
+    t.string "name"
+    t.string "localization"
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_resources", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "resource_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email"
+    t.string "name"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "admin", default: false
+    t.string "authentication_token"
   end
 
 end
