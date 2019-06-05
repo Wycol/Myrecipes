@@ -1,14 +1,20 @@
 Rails.application.routes.draw do
-root 'pages#home'
-get 'pages/home', to: 'pages#home'
+    root 'pages#home'
+    get 'pages/home', to: 'pages#home'
 
-resources :recipes
-get '/signup', to: 'chefs#new'
-resources :chefs, except: [:new]
+    resources :recipes do
+        resources :comments, only: [:create]
 
-get '/login', to: 'sessions#new'
-post 'login', to: 'sessions#create'
-delete 'logout', to: 'sessions#destroy'
+    end
+    get '/signup', to: 'chefs#new'
+    resources :chefs, except: [:new]
 
-resources :ingredients
+    get '/login', to: 'sessions#new'
+    post 'login', to: 'sessions#create'
+    delete 'logout', to: 'sessions#destroy'
+
+    resources :ingredients
+
+    mount ActionCable.server => '/cable'
+
 end
